@@ -1,0 +1,94 @@
+﻿<Window x:Class="ExampleTemperatureGraph.View"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExampleTemperatureGraph"
+        xmlns:lcusb="http://schemas.arction.com/semibindablecharting/ultimate/"
+        mc:Ignorable="d"
+        Title="View" Height="600" Width="800" Background="{x:Null}" Foreground="{x:Null}">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid Margin="0,0,0,0" RenderTransformOrigin="0.5,0.696">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="402*"/>
+            <RowDefinition Height="167*" MinHeight="24"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="583*"/>
+            </Grid.ColumnDefinitions>
+            <lcusb:LightningChartUltimate ChartName="Temperature Measurement Chart" ColorTheme="LightGray" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                <lcusb:LightningChartUltimate.ChartBackground>
+                    <lcusb:Fill Color="#FF1E4617" GradientFill="Radial" GradientDirection="45" GradientColor="#FF0F060F" BitmapSmoothing="GaussianQuad">
+                        <lcusb:Fill.Bitmap>
+                            <lcusb:BitmapFill/>
+                        </lcusb:Fill.Bitmap>
+                    </lcusb:Fill>
+                </lcusb:LightningChartUltimate.ChartBackground>
+                <lcusb:LightningChartUltimate.ViewXY>
+                    <lcusb:ViewXY DropOldSeriesData="True">
+                        <lcusb:ViewXY.XAxes>
+                            <lcusb:AxisX 
+                                AutoFormatLabels="False" 
+                                DateOriginDay="{Binding Source={x:Static local:ViewModel.DateOriginDay}}" 
+                                DateOriginMonth="{Binding Source={x:Static local:ViewModel.DateOriginMonth}}" 
+                                DateOriginYear="{Binding Source={x:Static local:ViewModel.DateOriginYear}}" 
+                                LabelsAngle="-0" 
+                                LabelsTimeFormat="dd'.'MM'.'yyyy&#x0a;HH':'mm'.'ss" 
+                                Maximum="{Binding XMaximum}" 
+                                Minimum="{Binding XMinimum}" 
+                                ScrollPosition="{Binding ScrollPosition}" 
+                                ValueType="DateTime"
+                                ScrollMode="Scrolling">
+                                <lcusb:AxisX.Title>
+                                    <lcusb:AxisXTitle Text="Time"/>
+                                </lcusb:AxisX.Title>
+                            </lcusb:AxisX>
+                        </lcusb:ViewXY.XAxes>
+                        <lcusb:ViewXY.YAxes>
+                            <lcusb:AxisY Maximum="50000" AxisColor="#FF092C23" GridStripColor="#FF202627" MouseClick="AxisY_MouseClick" LabelsColor="Gainsboro" MouseHighlight="Blink" MouseDragSnapToDiv="True">
+                                <lcusb:AxisY.Title>
+                                    <lcusb:AxisYTitle Text="LoadSpindle"/>
+                                </lcusb:AxisY.Title>
+                            </lcusb:AxisY>
+                        </lcusb:ViewXY.YAxes>
+                        <lcusb:ViewXY.Margins>
+                            <Thickness Left="80" Top="30" Right="10" Bottom="100"/>
+                        </lcusb:ViewXY.Margins>
+                        <lcusb:ViewXY.PointLineSeries>
+                            <lcusb:PointLineSeries 
+                                MouseInteraction="True"
+                                Points="{Binding Points}">
+                                <lcusb:PointLineSeries.LineStyle>
+                                    <lcusb:LineStyle Color="#FF15552A" AntiAliasing="Normal" Width="2"/>
+                                </lcusb:PointLineSeries.LineStyle>
+                                <lcusb:PointLineSeries.DataBreaking>
+                                    <lcusb:DataBreakingOptions Enabled="True"/>
+                                </lcusb:PointLineSeries.DataBreaking>
+                            </lcusb:PointLineSeries>
+                        </lcusb:ViewXY.PointLineSeries>
+                    </lcusb:ViewXY>
+                </lcusb:LightningChartUltimate.ViewXY>
+            </lcusb:LightningChartUltimate>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+
+        </Grid>
+        <StackPanel Grid.Column="1" Margin="8">
+            <CheckBox 
+                Content="Enabled" 
+                IsChecked="{Binding IsEnabled}"/>
+            <Grid Height="8"/>
+            <Button 
+                Name="buttonAddNaN" 
+                Content="Add NaN" 
+                VerticalAlignment="Top"/>
+        </StackPanel>
+    </Grid>
+</Window>
